@@ -1,0 +1,162 @@
+\documentclass[12pt,fleqn]{report}
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\usepackage{a4}
+\usepackage{latexsym}
+\usepackage{epsf}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{scrextend}
+\usepackage{tikz}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{shapes.symbols}
+\usepackage{fontspec}
+\usepackage{wrapfig}
+\usepackage{nameref}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{pdfpages}
+\usepackage{makeidx}
+
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[ngerman, german]{babel}
+\usepackage{marvosym}
+\usepackage{graphics}
+\usepackage{extarrows}
+
+\usepackage{hyperref}% http://ctan.org/pkg/hyperref
+\usepackage{cleveref}% http://ctan.org/pkg/cleveref
+\usepackage{lipsum}% http://ctan.org/pkg/lipsum
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\crefname{lemma}{Lemma}{Lemmas}
+
+\newenvironment{beweis}{\begin{proof}[Beweis]}{\end{proof}}
+
+
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+
+\newfontfamily\sansfont[Extension = .ttf, Path = ./fonts/, UprightFont = OpenSans-Regular, BoldFont=OpenSans-SemiBold, ItalicFont=OpenSans-SemiBold]{OpenSans}
+
+
+\titleformat{\chapter}[display]
+  {\sansfont\bfseries}{}{0pt}{\huge}
+  
+\renewcommand{\contentsname}{\sansfont Content}  
+
+\definecolor{folderbg}{RGB}{70, 130, 180}
+\definecolor{folderborder}{RGB}{50,50,50}
+\newlength\Size
+\setlength\Size{5pt}
+
+
+\pgfdeclarelayer{bg}
+\pgfsetlayers{bg,main}
+
+\renewcommand{\textfraction}{0.05}
+\topmargin -15mm
+\textwidth 160mm
+\textheight 240mm
+\oddsidemargin -2mm
+\evensidemargin -2mm
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+
+\usepackage[backend=biber,bibencoding=utf8,style=numeric,autocite=plain,sorting=none]{biblatex}
+\usepackage{setspace}
+
+\addbibresource{Literatur.bib}
+
+\titleformat*{\section}{\Large\sansfont}
+\titleformat*{\subsection}{\large\sansfont}
+\titleformat*{\subsubsection}{\sansfont}
+
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+\title{\vspace{-5cm}\small Saarland University\\
+Faculty of Natural Sciences and Technology I\\
+Department of Mathematic\\
+\mbox{} \vspace{4cm}\\
+\small\sansfont Mitschrift \\
+\mbox{} \vspace{0.2cm}\\
+  {\Huge\sansfont  Stochastik 1}\\}
+
+
+
+\author{\textbf{\sansfont \scriptsize gehalten von}\\
+Prof. Dr. Christian Bender\\
+\scriptsize\sansfont\textbf{Sommersemester 2019}\\
+\vspace{1cm}\\
+%\textbf{\sansfont Reviewers:}\\
+%Prof. Dr. Markus Bläser\\
+\vspace{1cm}\\
+}
+\date{}
+\end{titlepage}
+\maketitle
+
+
+\pagebreak
+{\sansfont \small
+\tableofcontents
+}
+\cleardoublepage
+\pagenumbering{arabic}
+
+
+
+
+\part{Grundlagen}
+
+\chapter{Einführung und Notationen}
+
+\section{Zufallsexperimente}
+
+Unter Zufallsexperimenten verstehen wir Experimente, deren Ausgänge zufälligen Einflüssen unterliegen, z.B.:
+\begin{itemize}
+\item[•] das Würfeln mit einem 6-seitigen Würfel
+\item[•] das Drehen eines Glücksrades
+\item[•] der Verlauf eines Aktienkurses (im kommenden Jahr)
+\end{itemize}
+\underline{Frage:}\newline
+Wie kann man derartige Zufallsexperimente mathematisch modellieren?\newline
+Es bezeichne $\Omega$ eine nicht-leere Menge, die alle möglichen Ergebnisse des Zufallsexperimentes umfasst. $\Omega$ wird \textbf{Stichprobenraum}, \textbf{Ergebnismenge} oder \textbf{Grundraum} genannt.\newline
+Die Elemente $\omega \in \Omega$ heißen \textbf{Ergebnisse}.\newline
+\newline
+\underline{Beispiele:}
+\begin{itemize}
+\item[•] Beim Würfeln kann man $\Omega = \{1, 2, 3, 4, 5, 6\}$ wählen.
+\item[•] Beschreibt man die Position des Glücksrades durch den Winkel zur x-Achse, so bietet sich hier $\Omega = (0,2\pi]$
+\item[•] Der Aktienverlauf im kommenden Jahr kann als Funktion von $[0,1]$ nach $\mathbb{R}$ aufgefasst werden, sodass hier gilt:\newline 
+			$\Omega = \mathbb{R}^{[0,1]} := \{\omega \mid \omega : [0,1] \rightarrow \mathbb{R}\}$
+\end{itemize}
+Teilmengen $a \subset \Omega$ nennen wir \textbf{Ereignisse}.
+Zum Beispiel beschreibt beim Würfeln mit einem echten Würfel (6 seitig und fair) $A = \{1, 3, 5\}$ das Ereignis "Es fällt eine ungerade Zahl".
+Wir sagen, ein Ereignis $A$ tritt ein, falls bei einem Zufallsexperiment ein $\omega \in A$ realisiert wird.
+Wichtige Ereignisse sind:
+\begin{itemize}
+\item $\emptyset$ : unmögliches Ereignis
+\item $\Omega$ : sicheres Ereignis
+\item $\{\omega\}$, $\omega \in \Omega$ : Elementarereignis
+\end{itemize}
+
+
+
+
+\end{document}
